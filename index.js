@@ -12,7 +12,15 @@ app.get('/', function(req, res){
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on('connection', function(socket){
+  console.log("New User.");
+
+  // Event handler for when a session ends.
+  socket.on("disconnect", function() {
+    console.log("user disconnected.");
+    });
+
   socket.on('chat message', function(msg){
+    console.log("attempt to send :" + msg);
     io.emit('chat message', msg);
   });
 });

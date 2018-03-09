@@ -5,8 +5,9 @@
   box-sizing: border-box;
   }
 body {
-  font: 13px Helvetica, Arial;
-  background: grey;
+  font: 14px Helvetica, Arial;
+  background: black;
+  color: lime;
 
   }
 
@@ -17,16 +18,16 @@ body {
   top: 0; /* Position the navbar at the top of the page */
   height: 80px;
   width: 100%; /* Full width */
-  background: grey;
+  background: black;
   border-style: solid;
   border-width: 20px;
-  border-color: grey;
+  border-color: black;
 
 }
 #header li{
   float: left;
-  padding-right: 20px;
-  font: 30px Times;
+  font: 25px monospace;
+  color: lime;
 }
 
 #messages {
@@ -35,26 +36,24 @@ body {
   margin: 0;
   padding: 0;
   left: 0;
-  /*border-style: solid;
-  border-width: 20px;
-  border-color: grey;*/
-  width: 70%;
+
+  width: 74%;
   height: 100%;
   }
 #messages li {
-  padding: 5px 10px;
-  border-right-color: grey;
+  padding: 8px 10px;
+  border-right-color: black;
   border-right-style: solid;
   border-right-width: 20px;
-  border-left-color: grey;
+  border-left-color: black;
   border-left-style: solid;
   border-left-width: 20px;
 }
 #messages li:nth-child(odd) {
-  background: white;
+  background: #333333;
 }
 #messages li:nth-child(even) {
-  background: lightgrey;
+  background: #1a1a1a;
 }
 #messages {
   margin-bottom: 120px;
@@ -66,46 +65,41 @@ body {
   margin: 0;
   padding: 0;
   overflow: auto;
-  background: lightblue;
+  background: darkgrey;
   padding: 3px;
   position: fixed;
   border-style: solid;
   border-width: 20px;
-  border-color: grey;
+  border-color: black;
   right: 0;
   bottom: 0;
   height: 100%;
-  width: 29%;
+  width: 25%;
 
 }
 #users li {
+  color: black;
   padding: 5px 10px;
-  border-right-color: lightblue;
+  border-right-color: darkgrey;
   border-right-style: solid;
-  border-right-width: 5px;
-  border-left-color: lightblue;
+  border-right-width: 4px;
+  border-left-color: darkgrey;
   border-left-style: solid;
-  border-left-width: 5px;
-}
-#users li:nth-child(odd) {
-  background: white;
-}
-#users li:nth-child(even) {
-  background: lightgrey;
+  border-left-width: 4px;
 }
 #users {
   margin-top: 80px;
 }
 
 .inputText {
-  background: #000;
+  background: darkgrey;
   padding: 15px;
   position: fixed;
   bottom: 0;
-  width: 70%;
+  width: 74%;
   border-style: solid;
   border-width: 20px;
-  border-color: grey;
+  border-color: black;
   height: 120px;
   }
 
@@ -116,7 +110,52 @@ body {
   margin-right: .5%;
   }
 .inputText button {
+  font-size: 20px;
+  color: lime;
   width: 19.5%;
-  background: rgb(130, 224, 255);
+  background: #1a1a1a;
   padding: 10px;
   }
+
+@media only screen and (max-width: 725px) {
+
+   body {
+     font: 9px Helvetica, Arial;
+   }
+   .inputText {
+     padding: 5px;
+     height: 60px;
+     border-width: 10px;
+   }
+   .inputText input{
+     padding: 5px;
+   }
+   .inputText button {
+     font-size: 12px;
+     padding: 5px;
+   }
+   #messages {
+     margin-bottom: 65px;
+     margin-top: 45px;
+   }
+
+   #header {
+     height: 40px;
+     border-width: 10px;
+   }
+
+   #header li{
+     font: 14px monospace;
+   }
+   #users {
+
+     border-width: 10px;
+   }
+   #users li {
+     color: black;
+     padding: 2px 4px;
+     border-right-width: 2px;
+     border-left-width: 2px;
+   }
+
+}

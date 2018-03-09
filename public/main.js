@@ -1,6 +1,6 @@
 var socket;
 var currentUser;
-var currentColor = "000000";
+var currentColor = "00ff00";
 $(document).ready(init);
 
 function init() {
@@ -49,6 +49,7 @@ function setup(users, _currentUser, history){
   }
   currentUser = _currentUser;
   document.getElementById("user").innerHTML = currentUser;
+  document.getElementById("color").innerHTML = currentColor;
   for(let line of history){
     $('#messages').append(line);
   }
@@ -95,4 +96,5 @@ function serverMessage(msg, d){
 
 function colorChange(color){
   currentColor = color;
+  document.getElementById("color").innerHTML = currentColor;
 }

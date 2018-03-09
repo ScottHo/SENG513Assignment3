@@ -52,6 +52,11 @@ function retrieveMessage(msg, user, color){
       userSockets[user].emit('server message', "Error: nickname " + newName + " is not unique", d);
       return;
     }
+    else if (msg.length > 56){
+      userSockets[user].emit('server message', "Error: nickname " + newName + " is too long (max 50 chars)", d);
+      return;
+    }
+
     userSockets[user].emit('server message', "Nickname changed to " + newName, d);
     io.emit('change name', user, newName);
     var index =  users.indexOf(user);

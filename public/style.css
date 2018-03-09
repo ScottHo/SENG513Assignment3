@@ -6,59 +6,109 @@
   }
 body {
   font: 13px Helvetica, Arial;
+  background: grey;
+
   }
-form {
-  background: #000;
-  padding: 3px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  }
-form input {
-  border: 0;
-  padding: 10px;
-  width: 90%;
-  margin-right: .5%;
-  }
-form button {
-  width: 9%;
-  background: rgb(130, 224, 255);
-  border: none;
-  padding: 10px;
-  }
+
+.header {
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  height: 80px;
+  width: 100%; /* Full width */
+  background: grey;
+  border-style: solid;
+  border-width: 20px;
+  border-color: grey;
+}
 
 #messages {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  background: white;
+  /*border-style: solid;
+  border-width: 20px;
+  border-color: grey;*/
+  width: 70%;
+  height: 100%;
   }
 #messages li {
   padding: 5px 10px;
+  border-right-color: grey;
+  border-right-style: solid;
+  border-right-width: 20px;
+  border-left-color: grey;
+  border-left-style: solid;
+  border-left-width: 20px;
 }
 #messages li:nth-child(odd) {
-  background: #eee;
+  background: white;
+}
+#messages li:nth-child(even) {
+  background: lightgrey;
 }
 #messages {
-  margin-bottom: 40px
+  margin-bottom: 120px;
+  margin-top: 80px;
 }
-.inputText {
-  background: #000;
+
+#users {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  background: lightblue;
   padding: 3px;
   position: fixed;
+  border-style: solid;
+  border-width: 20px;
+  border-color: grey;
+  right: 0;
   bottom: 0;
-  width: 100%;
+  height: 100%;
+  width: 29%;
+
+}
+#users li {
+  padding: 5px 10px;
+  border-right-color: lightblue;
+  border-right-style: solid;
+  border-right-width: 5px;
+  border-left-color: lightblue;
+  border-left-style: solid;
+  border-left-width: 5px;
+}
+#users li:nth-child(odd) {
+  background: white;
+}
+#users li:nth-child(even) {
+  background: lightgrey;
+}
+#users {
+  margin-top: 80px;
+}
+
+.inputText {
+  background: #000;
+  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  width: 70%;
+  border-style: solid;
+  border-width: 20px;
+  border-color: grey;
+  height: 120px;
   }
 
 .inputText input{
   border: 2;
   padding: 10px;
-  width: 90%;
+  width: 80%;
   margin-right: .5%;
   }
 .inputText button {
-  width: 9%;
+  width: 19.5%;
   background: rgb(130, 224, 255);
-  border-style: solid;
-  border-width: 2px;
   padding: 10px;
   }

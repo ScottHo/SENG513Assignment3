@@ -13,12 +13,11 @@ body {
 
 #header {
   overflow: hidden;
-  position: fixed; /* Set the navbar to fixed position */
+  position: fixed;
   list-style-type: none;
-  top: 0; /* Position the navbar at the top of the page */
+  top: 0;
   height: 80px;
-  width: 100%; /* Full width */
-  background: black;
+  width: 100%;
   border-style: solid;
   border-width: 20px;
   border-color: black;

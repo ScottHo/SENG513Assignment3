@@ -10,9 +10,10 @@ body {
 
   }
 
-.header {
+#header {
   overflow: hidden;
   position: fixed; /* Set the navbar to fixed position */
+  list-style-type: none;
   top: 0; /* Position the navbar at the top of the page */
   height: 80px;
   width: 100%; /* Full width */
@@ -20,13 +21,20 @@ body {
   border-style: solid;
   border-width: 20px;
   border-color: grey;
+
+}
+#header li{
+  float: left;
+  padding-right: 20px;
+  font: 30px Times;
 }
 
 #messages {
+  overflow: auto;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  background: white;
+  left: 0;
   /*border-style: solid;
   border-width: 20px;
   border-color: grey;*/

@@ -21,6 +21,9 @@ var User = class {
   get number(){
     return this._number;
   }
+  set name(newname){
+    this._name = newname;
+  }
 }
 
 app.get('/', function(req, res){
@@ -31,7 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 io.on('connection', function(socket){
   var currentUser = createUser();
-  socket.emit('user list', users);
+  socket.emit('setup', users, currentUser.name);
   console.log(currentUser.name + " Connected.");
   socket.broadcast.emit('new user', currentUser.name);
   // Event handler for when a session ends.
@@ -46,16 +49,29 @@ io.on('connection', function(socket){
     }
   });
 
-  socket.on('chat message', function(msg){
-    if (msg == "lol"){
-      for (i = 0; i < users.length; i++) {
-        console.log(users[i]);
-      }
-    }
-    io.emit('chat message', msg);
-  });
+  socket.on('chat message', retrieveMessage);
 });
 
+function retrieveMessage(msg, user){
+  if (msg.substring(0,6) == "/nick "){
+    var newName = msg.substring(6, msg.length);
+    if (users.indexOf(newName) != -1){
+      var d = new Date();
+      io.emit('chat message', "Error: nickname is not unique", "SERVER", d);
+      return;
+    }
+    var index =  users.indexOf(user);
+    if (index > -1) {
+      users.splice(index, 1);
+    }
+    users.push(newName);
+    io.emit('change name', user, newName);
+  }
+  else{
+    var d = new Date();
+    io.emit('chat message', msg, user, d);
+  }
+}
 
 function createUser(){
   var number = available.pop();

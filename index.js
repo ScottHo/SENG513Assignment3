@@ -8,23 +8,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var path = require('path');
-var available = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 var users = [];
-var User = class {
-  constructor(name, number){
-    this._name = name;
-    this._number = number;
-  }
-  get name(){
-    return this._name;
-  }
-  get number(){
-    return this._number;
-  }
-  set name(newname){
-    this._name = newname;
-  }
-}
+var history = [];
+var userSockets = {};
 
 app.get('/', function(req, res){
  res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -33,51 +19,82 @@ app.get('/', function(req, res){
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on('connection', function(socket){
-  var currentUser = createUser();
-  socket.emit('setup', users, currentUser.name);
-  console.log(currentUser.name + " Connected.");
-  socket.broadcast.emit('new user', currentUser.name);
+  var currentUser = createUser(socket);
+  socket.emit('setup', users, currentUser, history);
+  console.log(currentUser + " Connected.");
+  socket.broadcast.emit('new user', currentUser);
   // Event handler for when a session ends.
   socket.on("disconnect", function() {
     console.log("disconnect");
-    socket.broadcast.emit('exit user', currentUser.name);
-    available.push(currentUser.number);
-    console.log(currentUser.name + " disconnected.");
-    var index = users.indexOf(currentUser.name);
+    socket.broadcast.emit('exit user', currentUser);
+    console.log(currentUser + " disconnected.");
+    var index = users.indexOf(currentUser);
     if (index > -1) {
       users.splice(index, 1);
     }
   });
-
   socket.on('chat message', retrieveMessage);
+  socket.on('add history', addHistory);
 });
 
-function retrieveMessage(msg, user){
-  if (msg.substring(0,6) == "/nick "){
-    var newName = msg.substring(6, msg.length);
-    if (users.indexOf(newName) != -1){
-      var d = new Date();
-      io.emit('chat message', "Error: nickname is not unique", "SERVER", d);
-      return;
-    }
-    var index =  users.indexOf(user);
-    if (index > -1) {
-      users.splice(index, 1);
-    }
-    users.push(newName);
-    io.emit('change name', user, newName);
-  }
-  else{
-    var d = new Date();
-    io.emit('chat message', msg, user, d);
+function addHistory(msg){
+  history.push(msg);
+  if (history.length > 200){
+    history.shift();
   }
 }
 
-function createUser(){
-  var number = available.pop();
-  var newUser = new User("user" + number.toString(), number);
-  users.push(newUser.name);
+function retrieveMessage(msg, user, color){
+  if (msg.substring(0,6) === "/nick "){
+    var newName = msg.substring(6, msg.length);
+    if (users.indexOf(newName) != -1){
+      var d = new Date();
+      userSockets[user].emit('server message', "Error: nickname " + newName + " is not unique", d);
+      return;
+    }
+    userSockets[user].emit('server message', "Nickname changed to " + newName, d);
+    io.emit('change name', user, newName);
+    var index =  users.indexOf(user);
+    users[index] = newName;
+  }
+  else if (msg.substring(0,11) === "/nickcolor "){
+    var newColor = msg.substring(11, msg.length);
+    if (isColor(newColor)){
+      userSockets[user].emit('color change', newColor);
+      userSockets[user].emit('server message', "Nickname Color changed", d);
+    }
+    else{
+      userSockets[user].emit('server message', "Error: color " + newColor + " is not valid", d);
+    }
+  }
+  else{
+    var d = new Date();
+    io.emit('chat message', msg, user, color, d);
+
+  }
+}
+
+function createUser(_socket){
+  var number = 1;
+  while(users.indexOf("user" + number.toString()) != -1){
+    number++;
+  }
+  var newUser = "user" + number.toString();
+  users.push(newUser);
+  userSockets[newUser] = _socket;
   return newUser;
+}
+
+function isColor(color){
+  if (color.length !== 6)
+    return false;
+  var re = /[0-9A-Fa-f]{6}/g;
+  if(re.test(color)) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 http.listen(port, function(){

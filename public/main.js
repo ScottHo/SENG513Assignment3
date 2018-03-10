@@ -53,6 +53,7 @@ function setup(users, _currentUser, history){
   for(let line of history){
     $('#messages').append(line);
   }
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function newUser(username){

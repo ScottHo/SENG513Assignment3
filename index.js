@@ -10,6 +10,9 @@ var port = process.env.PORT || 3000;
 var path = require('path');
 var users = [];
 var history = [];
+for (i = 0; i < 200; i++) {
+  history.push("<li>&nbsp;</li>");
+} 
 var userSockets = {};
 
 app.get('/', function(req, res){

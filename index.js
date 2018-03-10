@@ -64,6 +64,8 @@ function retrieveMessage(msg, user, color){
     io.emit('change name', user, newName);
     var index =  users.indexOf(user);
     users[index] = newName;
+    userSockets[newName] = userSockets[user];
+    delete userSockets[user];
   }
   else if (msg.substring(0,11) === "/nickcolor "){
     var newColor = msg.substring(11, msg.length);

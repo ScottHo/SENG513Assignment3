@@ -12,6 +12,11 @@ function init() {
   socket.on('change name', changeName);
   socket.on('server message', serverMessage);
   socket.on('color change', colorChange);
+  $(document).keyup(function(event) {
+    if (event.key == "Enter") {
+      sendMessage();
+    }
+  });
 }
 
 function sendMessage(){
@@ -93,6 +98,8 @@ function serverMessage(msg, d){
                 + date.getSeconds() + "] ";
   $('#messages').append($("<li><p><b><span style=\"color: #CC0000;\">" + dateString + "SERVER: " +
                         msg + "</span></b></p></li>"));
+  window.scrollTo(0, document.body.scrollHeight);
+
 }
 
 function colorChange(color){
